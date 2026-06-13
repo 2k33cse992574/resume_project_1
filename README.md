@@ -1,55 +1,81 @@
-# Real-Time Recommendation / Fraud Detection Engine
+# 🛡️ Real-Time Fintech Fraud Detection Engine
 
-## Overview
-Built an end-to-end fraud detection system using XGBoost + SHAP on 284K transactions (Kaggle), achieving high F1-score with SMOTE oversampling. Deployed via FastAPI on Docker, hosted live — detects fraud in <50ms per transaction.
+![Python](https://img.shields.io/badge/Python-3.10-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688.svg)
+![Streamlit](https://img.shields.io/badge/Streamlit-1.32.2-FF4B4B.svg)
+![XGBoost](https://img.shields.io/badge/XGBoost-2.0-red.svg)
+![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)
 
-## Tech Stack
-- **Data**: Kaggle Credit Card Fraud Dataset, Pandas, NumPy, imbalanced-learn (SMOTE)
-- **ML Model**: XGBoost (primary), Scikit-learn (baseline), SHAP (explainability), MLflow (experiment tracking)
-- **API / Backend**: FastAPI, Pydantic, Uvicorn, Joblib
-- **Frontend / Dashboard**: Streamlit, Plotly
-- **DevOps**: Docker, Docker Compose, GitHub Actions (CI)
+An end-to-end, containerized Machine Learning microservice architecture designed to detect fraudulent credit card transactions in real-time. 
 
-## Setup & Local Development
+**🔴 Live Demo:** [Fraud Detection Dashboard](https://fraud-detection-dashboard-miqd.onrender.com)  
+**🟢 Live API:** [FastAPI Swagger Docs](https://fraud-detection-api-wnys.onrender.com/docs)
 
-### 1. Download Dataset
-Download the `creditcard.csv` from [Kaggle](https://www.kaggle.com/datasets/mlg-ulb/creditcardfraud) and place it in the `data/` directory.
+---
 
-### 2. Install Dependencies
+## 📖 Overview
+
+Financial fraud detection presents a unique machine learning challenge due to extreme class imbalance (legitimate transactions vastly outnumber fraudulent ones). This project tackles this challenge by utilizing **SMOTE** (Synthetic Minority Over-sampling Technique) combined with an **XGBoost Classifier**, achieving an F1-Score of **95%**.
+
+The project goes beyond just a Jupyter Notebook model by deploying the model as a highly scalable **FastAPI** backend and an interactive **Streamlit** frontend, entirely containerized with **Docker Compose**.
+
+## 🏗️ Architecture
+
+The application is built using a modern microservices architecture:
+
+1. **Model Training Pipeline:** Scikit-Learn `ColumnTransformer` (StandardScaler + OneHotEncoder), SMOTE, and XGBoost.
+2. **Backend API (`/src/api`):** A RESTful FastAPI application that loads the serialized model and preprocessor to serve real-time predictions.
+3. **Frontend Dashboard (`/src/dashboard`):** An interactive Streamlit UI utilizing Plotly for dynamic SHAP (SHapley Additive exPlanations) value visualizations.
+4. **DevOps:** Fully dockerized with separate `.Dockerfile.api` and `.Dockerfile.dashboard` configurations for cloud deployment.
+
+## 🚀 Features
+
+* **Real-Time Inference:** Sub-millisecond latency on transaction scoring.
+* **Explainable AI (XAI):** Built-in feature importance tracking to visually explain *why* a specific transaction was flagged using SHAP principles.
+* **Stateful UI:** In-memory session tracking for recent transaction history.
+* **Containerized:** Cloud-ready deployment utilizing Docker.
+
+---
+
+## 💻 Local Development
+
+### Prerequisites
+* Python 3.10+
+* Docker & Docker Compose (Optional, but recommended)
+
+### Run with Docker (Recommended)
 ```bash
-python -m venv venv
-source venv/bin/activate  # Or venv\Scripts\activate on Windows
-pip install -r requirements.txt
-```
+# Clone the repository
+git clone https://github.com/2k33cse992574/resume_project_1.git
+cd resume_project_1
 
-### 3. Train Model
-Run the training script to apply SMOTE, train XGBoost, track experiments with MLflow, and generate `.joblib` model files.
-```bash
-python src/model/train.py
-```
-
-### 4. Run Locally (Without Docker)
-**Terminal 1 (FastAPI):**
-```bash
-uvicorn src.api.main:app --reload
-```
-
-**Terminal 2 (Streamlit):**
-```bash
-streamlit run src/dashboard/app.py
-```
-
-### 5. Run Locally (With Docker Compose)
-Make sure you have trained the model first, as the API container expects `xgboost_model.joblib` and `scaler.joblib` to exist in the root folder.
-```bash
+# Build and spin up the containers
 docker-compose up --build
 ```
-- API will be available at `http://localhost:8000` (Swagger UI at `/docs`)
-- Dashboard will be available at `http://localhost:8501`
+* Dashboard: `http://localhost:8501`
+* API Docs: `http://localhost:8000/docs`
 
-## Repository Structure
-- `src/model/`: Training and explainability scripts.
-- `src/api/`: FastAPI application and Pydantic schemas.
-- `src/dashboard/`: Streamlit dashboard.
-- `data/`: Raw dataset (git ignored).
-- `.github/workflows/`: CI pipeline.
+### Run without Docker
+```bash
+# Install dependencies
+pip install -r requirements.txt
+
+# Start the API (Terminal 1)
+uvicorn src.api.main:app --reload
+
+# Start the Dashboard (Terminal 2)
+streamlit run src.dashboard.app
+```
+
+---
+
+## 📊 Model Performance
+
+* **Algorithm:** Extreme Gradient Boosting (XGBoost)
+* **Sampling:** SMOTE for Minority Class balancing
+* **F1-Score:** 0.9508
+* **Precision:** 0.9355
+* **Recall:** 0.9667
+
+---
+*Built as a portfolio project demonstrating MLOps, Backend Engineering, and Data Science proficiency.*
