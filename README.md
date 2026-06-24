@@ -51,8 +51,8 @@ The application is built using a modern microservices architecture:
 ### Run with Docker (Recommended)
 ```bash
 # Clone the repository
-git clone https://github.com/2k33cse992574/resume_project_1.git
-cd resume_project_1
+git clone https://github.com/2k33cse992574/real-time-fraud-detection.git
+cd real-time-fraud-detection
 
 # Build and spin up the containers
 docker-compose up --build
@@ -78,9 +78,9 @@ streamlit run src.dashboard.app
 
 * **Algorithm:** Extreme Gradient Boosting (XGBoost)
 * **Sampling:** SMOTE for Minority Class balancing
-* **F1-Score:** 0.9508
-* **Precision:** 0.9355
-* **Recall:** 0.9667
+* **F1-Score:** 0.95
+* **Precision:** 0.94
+* **Recall:** 0.97
 
 ---
 *Built as a portfolio project demonstrating MLOps, Backend Engineering, and Data Science proficiency.*
